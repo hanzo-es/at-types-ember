@@ -1,7 +1,7 @@
 {
   "name": "@types/ember",
-  "version": "1.11.26-alpha",
-  "description": "TypeScript definitions for Ember.js 1.11.3",
+  "version": "2.0.0-dev1",
+  "description": "TypeScript 2.0 definitions for Ember.js 2.x",
   "main": "",
   "scripts": {},
   "author": {
@@ -18,30 +18,12 @@
     "@types/jquery": "1.10.25-alpha",
     "@types/handlebars": "3.0.25-alpha"
   },
-  "_id": "@types/ember@1.11.26-alpha",
-  "_shasum": "0cf842d6278d8175e16dc536a3256ebadb8a627c",
-  "_from": "@types/ember@latest",
-  "_resolved": "https://registry.npmjs.org/@types/ember/-/ember-1.11.26-alpha.tgz",
-  "_npmVersion": "3.7.2",
-  "_nodeVersion": "6.2.1",
-  "_npmUser": {
-    "name": "types",
-    "email": "ryan.cavanaugh@microsoft.com"
-  },
-  "dist": {
-    "shasum": "0cf842d6278d8175e16dc536a3256ebadb8a627c",
-    "tarball": "https://registry.npmjs.org/@types/ember/-/ember-1.11.26-alpha.tgz"
-  },
   "maintainers": [
     {
-      "name": "types",
-      "email": "ryan.cavanaugh@microsoft.com"
+      "name": "winding-lines",
+      "email": "git@winding-lines.com"
     }
   ],
-  "_npmOperationalInternal": {
-    "host": "packages-16-east.internal.npmjs.com",
-    "tmp": "tmp/ember-1.11.26-alpha.tgz_1467590943910_0.7678390841465443"
-  },
   "directories": {},
   "readme": "ERROR: No README data found!"
 }
