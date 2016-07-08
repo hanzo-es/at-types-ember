@@ -1,0 +1,29 @@
+{
+    "authors": "Jed Mao <https://github.com/jedmao>",
+    "definitionFilename": "index.d.ts",
+    "libraryDependencies": [
+        "jquery",
+        "handlebars"
+    ],
+    "moduleDependencies": [],
+    "libraryMajorVersion": "1",
+    "libraryMinorVersion": "11",
+    "libraryName": "Ember.js 1.11.3",
+    "typingsPackageName": "ember",
+    "projectName": "http://emberjs.com/",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "sourceBranch": "types-2.0",
+    "kind": "Mixed",
+    "globals": [
+        "EmberTesting",
+        "Ember",
+        "Em"
+    ],
+    "declaredModules": [
+        "Ember"
+    ],
+    "files": [
+        "index.d.ts"
+    ],
+    "contentHash": "7b97a494433294f3b46cf9fe26797a03e5d23cb5a2a8b5ba9e13a52c9401d8d5"
+}
