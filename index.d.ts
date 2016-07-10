@@ -32,7 +32,7 @@ declare namespace EmberStates {
           Transition object can be externally `abort`ed, while the promise
           cannot.
          */
-        promise: Ember.RSVP.Promise;
+        promise: Ember.RSVP.Promise<any, any>;
 
         /**
           Custom state can be stored on a Transition's `data` object.
@@ -56,7 +56,7 @@ declare namespace EmberStates {
           @arg {String} label optional string for labeling the promise. Useful for tooling.
           @return {Promise}
          */
-        then(onFulfilled: Function, onRejected?: Function, label?: string): Ember.RSVP.Promise;
+        then(onFulfilled: Function, onRejected?: Function, label?: string): Ember.RSVP.Promise<any, any>;
 
         /**
           Forwards to the internal `promise` property which you can
@@ -69,7 +69,7 @@ declare namespace EmberStates {
           Useful for tooling.
           @return {Promise}
          */
-        catch(onRejection: Function, label?: string): Ember.RSVP.Promise;
+        catch(onRejection: Function, label?: string): Ember.RSVP.Promise<any, any>;
 
         /**
           Forwards to the internal `promise` property which you can
@@ -82,7 +82,7 @@ declare namespace EmberStates {
           Useful for tooling.
           @return {Promise}
          */
-        finally(callback: Function, label?: string): Ember.RSVP.Promise;
+        finally(callback: Function, label?: string): Ember.RSVP.Promise<any, any>;
 
         /**
          Aborts the Transition. Note you can also implicitly abort a transition
@@ -149,7 +149,7 @@ declare namespace EmberStates {
           @return {Promise} a promise that fulfills with the same
             value that the final redirecting transition fulfills with
          */
-        followRedirects(): Ember.RSVP.Promise;
+        followRedirects(): Ember.RSVP.Promise<any, any>;
     }
 
 }
@@ -1783,17 +1783,17 @@ declare namespace Ember {
 
     // FYI - RSVP source comes from https://github.com/tildeio/rsvp.js/blob/master/lib/rsvp/promise.js
     namespace RSVP {
-        interface PromiseResolve {
-            (value?: any): void;
+        interface PromiseResolve<T> {
+            (value?: T): void;
         }
-        interface PromiseReject {
-            (reason?: any): void;
+        interface PromiseReject<U> {
+            (reason?: U): void;
         }
-        interface PromiseResolverFunction {
-            (resolve: PromiseResolve, reject: PromiseReject): void;
+        interface PromiseResolverFunction<T,U> {
+            (resolve: PromiseResolve<T>, reject: PromiseReject<U>): void;
         }
 
-        class Promise {
+        class Promise<T,U> {
 
             /**
               Promise objects represent the eventual result of an asynchronous operation. The
@@ -1806,7 +1806,7 @@ declare namespace Ember {
               Useful for tooling.
               @constructor
             */
-            constructor(resolver: PromiseResolverFunction, label?: string);
+            constructor(resolver: PromiseResolverFunction<T,U>, label?: string);
 
             /**
               The primary way of interacting with a promise is through its `then` method,
@@ -1819,7 +1819,7 @@ declare namespace Ember {
               Useful for tooling.
               @return {Promise}
             */
-            then(onFulfilled?: Function, onRejected?: Function): Promise;
+            then<U,V>(onFulfilled?: (a:T)=>U, onRejected?: (a:any)=>V): Promise<U,V>;
 
             /**
             `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
@@ -1831,7 +1831,7 @@ declare namespace Ember {
             Useful for tooling.
             @return {Promise}
             */
-            catch(onRejection: Function, label?: string): Promise;
+            catch<U>(onRejection: (a:any)=>U, label?: string): Promise<T,U>;
 
             /**
             `finally` will be invoked regardless of the promise's fate just as native
@@ -1843,7 +1843,7 @@ declare namespace Ember {
             Useful for tooling.
             @return {Promise}
             */
-            finally(callback: Function, label?: string): Promise;
+            finally<U>(callback: (a:T)=>U, label?: string): Promise<T,U>;
         }
     }
     class RenderBuffer {
@@ -1902,7 +1902,7 @@ declare namespace Ember {
             resolves. Otherwise, non-promise return values are not
             utilized in any way.
         */
-        afterModel(resolvedModel: any, transition: EmberStates.Transition): RSVP.Promise;
+        afterModel(resolvedModel: any, transition: EmberStates.Transition): RSVP.Promise<any,any>;
 
         /**
         This hook is the first of the route entry validation hooks
@@ -1931,7 +1931,7 @@ declare namespace Ember {
             resolves. Otherwise, non-promise return values are not
             utilized in any way.
         */
-        beforeModel(transition: EmberStates.Transition): RSVP.Promise;
+        beforeModel(transition: EmberStates.Transition): RSVP.Promise<any, any>;
 
         /**
         The controller associated with this route.
@@ -2044,7 +2044,7 @@ declare namespace Ember {
             the promise resolves, and the resolved value of the promise
             will be used as the model for this route.
         */
-        model(params: {}, transition: EmberStates.Transition): any|RSVP.Promise;
+        model(params: {}, transition: EmberStates.Transition): any|RSVP.Promise<any,any>;
 
         /**
         Returns the model of a parent (or any ancestor) route
@@ -2658,20 +2658,20 @@ declare namespace Ember {
         triggerAction(opts: {}): boolean;
     }
     class Test {
-        click(selector: string): RSVP.Promise;
-        fillin(selector: string, text: string): RSVP.Promise;
+        click(selector: string): RSVP.Promise<any, any>;
+        fillin(selector: string, text: string): RSVP.Promise<any, any>;
         find(selector: string): JQuery;
         findWithAssert(selector: string): JQuery;
         injectTestHelpers(): void;
-        keyEvent(selector: string, type: string, keyCode: number): RSVP.Promise;
+        keyEvent(selector: string, type: string, keyCode: number): RSVP.Promise<any, any>;
         static oninjectHelpers(callback: Function): void;
-        static promise(resolver: Function): RSVP.Promise;
+        static promise(resolver: Function): RSVP.Promise<any, any>;
         static registerHelper(name: string, helperMethod: Function): void;
         removeTestHelpers(): void;
         setupForTesting(): void;
         static unregisterHelper(name: string): void;
-        visit(url: string): RSVP.Promise;
-        wait(value: any): RSVP.Promise;
+        visit(url: string): RSVP.Promise<any, any>;
+        wait(value: any): RSVP.Promise<any, any>;
         static adapter: Object;
         testHelpers: {};
     }
@@ -3097,10 +3097,10 @@ declare namespace Em {
     class Observable extends Ember.Observable { }
     class OrderedSet extends Ember.OrderedSet { }
     namespace RSVP {
-        interface PromiseResolve extends Ember.RSVP.PromiseResolve { }
-        interface PromiseReject extends Ember.RSVP.PromiseReject { }
-        interface PromiseResolverFunction extends Ember.RSVP.PromiseResolverFunction { }
-        class Promise extends Ember.RSVP.Promise { }
+        interface PromiseResolve<T> extends Ember.RSVP.PromiseResolve<T> { }
+        interface PromiseReject<U> extends Ember.RSVP.PromiseReject<U> { }
+        interface PromiseResolverFunction<T,U> extends Ember.RSVP.PromiseResolverFunction<T,U> { }
+        class Promise<T,U> extends Ember.RSVP.Promise <T,U>{ }
     }
     class RenderBuffer extends Ember.RenderBuffer { }
     class Route extends Ember.Route { }
