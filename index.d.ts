@@ -1342,6 +1342,10 @@ declare namespace Ember {
         rootURL: string;
     }
     var IS_BINDING: RegExp;
+    class Inject {
+      controller(): Controller;
+      service(): Service;
+    }
     class Instrumentation {
         getProperties(obj: any, list: any[]): {};
         getProperties(obj: any, ...args: string[]): {};
@@ -2455,6 +2459,29 @@ declare namespace Ember {
         static metaForProperty(key: string): {};
         static isClass: boolean;
         static isMethod: boolean;
+    }
+    class Service extends CoreObject implements Observable {
+        /* Observable */
+        addObserver: ModifyObserver;
+        beginPropertyChanges(): Observable;
+        cacheFor(keyName: string): any;
+        decrementProperty(keyName: string, decrement?: number): number;
+        endPropertyChanges(): Observable;
+        get(keyName: string): any;
+        getProperties(...args: string[]): {};
+        getProperties(keys: string[]): {};
+        getWithDefault(keyName: string, defaultValue: any): any;
+        hasObserverFor(key: string): boolean;
+        incrementProperty(keyName: string, increment?: number): number;
+        notifyPropertyChange(keyName: string): Observable;
+        propertyDidChange(keyName: string): Observable;
+        propertyWillChange(keyName: string): Observable;
+        removeObserver(key: string, target: {}, method: string): void;
+        removeObserver(key: string, target: {}, method: Function): void;
+        set(keyName: string, value: any): Observable;
+        setProperties(hash: {}): Observable;
+        toggleProperty(keyName: string): boolean;
+        /* /Observable */
     }
     class Set extends CoreObject implements MutableEnumberable, Copyable, Freezable {
         addEnumerableObserver(target: any, opts: EnumerableConfigurationOptions): Set;
