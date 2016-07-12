@@ -1,6 +1,6 @@
 {
   "name": "at-types-ember",
-  "version": "2.0.0-dev4",
+  "version": "2.0.0-dev5",
   "description": "TypeScript 2.0 definitions for Ember.js 2.x",
   "main": "",
   "scripts": {},

@@ -1342,10 +1342,11 @@ declare namespace Ember {
         rootURL: string;
     }
     var IS_BINDING: RegExp;
-    class Inject {
+    var inject : {
       controller(): Controller;
       service(): Service;
     }
+
     class Instrumentation {
         getProperties(obj: any, list: any[]): {};
         getProperties(obj: any, ...args: string[]): {};
@@ -2876,6 +2877,7 @@ declare namespace Ember {
         notEmpty(dependentKey: string): ComputedProperty;
         oneWay(dependentKey: string): ComputedProperty;
         or(...args: string[]): ComputedProperty;
+        readOnly(dependentString: string): ComputedProperty;
     };
     // ReSharper disable DuplicatingLocalDeclaration
     var config: {};
