@@ -1011,6 +1011,15 @@ declare namespace Ember {
         /**
         Creates a new subclass.
         @method extend
+        @static
+        @param {Mixin} [mixins] - One or more Mixin classes
+        @param {Object} [args] - Object containing values to use within the new class
+        **/
+        static extend<T>(mixin1?: Mixin, mixin2?: Mixin, args?: CoreObjectArguments): T;
+
+        /**
+        Creates a new subclass.
+        @method extend
         @param {Object} [args] - Object containing values to use within the new class
         Non-static method because Ember classes aren't currently 'real' TypeScript classes.
         **/
@@ -1343,8 +1352,8 @@ declare namespace Ember {
     }
     var IS_BINDING: RegExp;
     var inject : {
-      controller(): Controller;
-      service(): Service;
+      controller(name?: string): Controller;
+      service(name?: string): Service;
     }
 
     class Instrumentation {
@@ -1798,7 +1807,12 @@ declare namespace Ember {
             (resolve: PromiseResolve<T>, reject: PromiseReject<U>): void;
         }
 
-        class Promise<T,U> {
+        interface Thenable<T,U> {
+          then<V,X>(onFulfilled?: (value: T) => V | Thenable<V, X>, onRejected?: (error: any) => X | Thenable<V, X>): Thenable<V, X>;
+          then<V,X>(onFulfilled?: (value: T) => V | Thenable<V, X>, onRejected?: (error: any) => void): Thenable<V,void>;
+        }
+
+        class Promise<T,U> implements Thenable<T,U> {
 
             /**
               Promise objects represent the eventual result of an asynchronous operation. The
@@ -1824,7 +1838,8 @@ declare namespace Ember {
               Useful for tooling.
               @return {Promise}
             */
-            then<U,V>(onFulfilled?: (a:T)=>U, onRejected?: (a:any)=>V): Promise<U,V>;
+          then<V,X>(onFulfilled?: (value: T) => V | Thenable<V, X>, onRejected?: (error: any) => X | Thenable<V, X>): Promise<V, X>;
+          then<V,X>(onFulfilled?: (value: T) => V | Thenable<V, X>, onRejected?: (error: any) => void): Promise<V,X>;
 
             /**
             `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
@@ -1836,7 +1851,7 @@ declare namespace Ember {
             Useful for tooling.
             @return {Promise}
             */
-            catch<U>(onRejection: (a:any)=>U, label?: string): Promise<T,U>;
+            catch<V>(onRejection: (a:any)=>U, label?: string): Promise<T,V>;
 
             /**
             `finally` will be invoked regardless of the promise's fate just as native
@@ -1848,8 +1863,10 @@ declare namespace Ember {
             Useful for tooling.
             @return {Promise}
             */
-            finally<U>(callback: (a:T)=>U, label?: string): Promise<T,U>;
+            finally<V>(callback: (a:T)=>V, label?: string): Promise<V,U>;
         }
+
+        function all(promises: Promise<any,any>[]): Promise<any, any>;
     }
     class RenderBuffer {
         addClass(className: string): RenderBuffer;
@@ -2974,6 +2991,7 @@ declare namespace Ember {
     function rewatch(obj: any): void;
     var run: {
         (target: any, method: Function): void;
+        (method: Function): void;
         begin(): void;
         cancel(timer: any): void;
         debounce(target: any, method: Function, ...args: any[]): void;
