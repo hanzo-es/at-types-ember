@@ -1356,6 +1356,12 @@ declare namespace Ember {
       service(name?: string): Service;
     }
 
+    class Helper extends Object {
+      static helper( h: (a:any) => any): Helper;
+      compute(params:any[], hash:any): any;
+      recompute(params:any[], hash:any): any;
+    }
+
     class Instrumentation {
         getProperties(obj: any, list: any[]): {};
         getProperties(obj: any, ...args: string[]): {};
