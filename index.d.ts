@@ -836,15 +836,15 @@ declare namespace Ember {
     will be cached. You can specify various properties that your computed property is dependent on.
     This will force the cached result to be recomputed if the dependencies are modified.
     **/
-    class ComputedProperty {
-        cacheable(aFlag?: boolean): ComputedProperty;
-        get(keyName: string): any;
-        meta(meta: {}): ComputedProperty;
-        property(...args: string[]): ComputedProperty;
-        readOnly(): ComputedProperty;
+    class ComputedProperty<T> {
+        cacheable(aFlag?: boolean): ComputedProperty<T>;
+        get(keyName: string): T;
+        meta(meta: {}): {} | ComputedProperty<T>;
+        property(...args: string[]): ComputedProperty<T>;
+        readOnly(): ComputedProperty<T>;
         set(keyName: string, newValue: any, oldValue: string): any;
         // ReSharper disable UsingOfReservedWord
-        volatile(): ComputedProperty;
+        volatile(): ComputedProperty<T>;
         // ReSharper restore UsingOfReservedWord
     }
     class Container {
@@ -2881,27 +2881,40 @@ declare namespace Ember {
     function compare(v: any, w: any): number;
     // ReSharper disable once DuplicatingLocalDeclaration
     var computed: {
-        (...args: any[]): ComputedProperty;
-        alias(dependentKey: string): ComputedProperty;
-        and(...args: string[]): ComputedProperty;
-        any(...args: string[]): ComputedProperty;
-        bool(dependentKey: string): ComputedProperty;
-        defaultTo(defaultPath: string): ComputedProperty;
-        empty(dependentKey: string): ComputedProperty;
-        equal(dependentKey: string, value: any): ComputedProperty;
-        gt(dependentKey: string, value: number): ComputedProperty;
-        gte(dependentKey: string, value: number): ComputedProperty;
-        lt(dependentKey: string, value: number): ComputedProperty;
-        lte(dependentKey: string, value: number): ComputedProperty;
-        map(...args: string[]): ComputedProperty;
-        match(dependentKey: string, regexp: RegExp): ComputedProperty;
-        none(dependentKey: string): ComputedProperty;
-        not(dependentKey: string): ComputedProperty;
-        notEmpty(dependentKey: string): ComputedProperty;
-        oneWay(dependentKey: string): ComputedProperty;
-        or(...args: string[]): ComputedProperty;
-        readOnly(dependentString: string): ComputedProperty;
+        (...args: any[]): ComputedProperty<any>;
+        alias(dependentKey: string): ComputedProperty<any>;
+        and(...args: string[]): ComputedProperty<boolean>;
+        any(...args: string[]): ComputedProperty<boolean>;
+        bool(dependentKey: string): ComputedProperty<boolean>;
+        defaultTo(defaultPath: string): ComputedProperty<any>;
+        empty(dependentKey: string): ComputedProperty<boolean>;
+        equal(dependentKey: string, value: any): ComputedProperty<boolean>;
+        gt(dependentKey: string, value: number): ComputedProperty<boolean>;
+        gte(dependentKey: string, value: number): ComputedProperty<boolean>;
+        lt(dependentKey: string, value: number): ComputedProperty<boolean>;
+        lte(dependentKey: string, value: number): ComputedProperty<boolean>;
+        map(...args: string[]): ComputedProperty<Array>;
+        mapBy(...args: any[]): ComputedProperty<Array>;
+        match(dependentKey: string, regexp: RegExp): ComputedProperty<boolean>;
+        none(dependentKey: string): ComputedProperty<boolean>;
+        not(dependentKey: string): ComputedProperty<boolean>;
+        notEmpty(dependentKey: string): ComputedProperty<boolean>;
+        oneWay(dependentKey: string): ComputedProperty<any>;
+        or(...args: string[]): ComputedProperty<boolean>;
+        readOnly(dependentString: string): ComputedProperty<any>;
     };
+    interface PromiseProxyMixin {
+      then(callback: Function): RSVP.Promise<any,any>;
+      catch(callback: Function): RSVP.Promise<any,any>;
+      finally(callback: Function): RSVP.Promise<any,any>;
+      
+      isFulfilled: boolean;
+      isPending: boolean;
+      isRejected: boolean;
+      isSettled: boolean;
+      promise: RSVP.Promise<any,any>
+      reason: any;
+    }
     // ReSharper disable DuplicatingLocalDeclaration
     var config: {};
     // ReSharper restore DuplicatingLocalDeclaration
@@ -3075,7 +3088,7 @@ declare namespace Em {
     class CollectionView extends Ember.CollectionView { }
     class Comparable extends Ember.Comparable { }
     class Component extends Ember.Component { }
-    class ComputedProperty extends Ember.ComputedProperty { }
+    class ComputedProperty extends Ember.ComputedProperty<any> { }
     class Container extends Ember.Container { }
     class ContainerView extends Ember.ContainerView { }
     class Controller extends Ember.Controller { }
